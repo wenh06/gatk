@@ -5,7 +5,8 @@ FROM ubuntu:18.04
 #### Basic image utilities
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y --no-install-recommends python \
+    apt-get install -y --no-install-recommends \
+    python \
     wget \
     curl \
     bc \
@@ -16,6 +17,7 @@ RUN apt-get update && \
     samtools \
     openjdk-8-jdk \
     tabix \
+    gpg-agent \
     build-essential \
     software-properties-common && \
     apt-get -y clean  && \
