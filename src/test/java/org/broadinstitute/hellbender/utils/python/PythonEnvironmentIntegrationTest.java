@@ -26,7 +26,7 @@ public class PythonEnvironmentIntegrationTest {
                 { "tensorflow", null },
                 { "theano", Collections.singletonMap("MKL_THREADING_LAYER", "GNU")},
                 { "keras", null },
-                { "pymc3", null },
+                { "pymc3", Collections.singletonMap("MKL_THREADING_LAYER", "GNU") },
                 { "argparse", null },
                 { "gcnvkernel", Collections.singletonMap("MKL_THREADING_LAYER", "GNU") }
         };
@@ -39,7 +39,7 @@ public class PythonEnvironmentIntegrationTest {
 
         // We use the default python executable name ("python"), which in the activated gatk conda env should be Python 3.6.1
         final PythonScriptExecutor pythonExecutor = new PythonScriptExecutor(true);
-        Assert.assertTrue(pythonExecutor.executeCommand(String.format("import %s", packageName) + NL, null, null, null));
+        Assert.assertTrue(pythonExecutor.executeCommand(String.format("import %s", packageName) + NL, null, null, environment));
     }
 
 }

@@ -1,6 +1,6 @@
 # Using OpenJDK 8
 # This Dockerfile does not require any files that are in the GATK4 repo.
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 #### Basic image utilities
 RUN apt-get update && \
@@ -17,6 +17,7 @@ RUN apt-get update && \
     samtools \
     openjdk-8-jdk \
     tabix \
+    gpg-agent \
     build-essential \
     software-properties-common && \
     apt-get -y clean  && \
