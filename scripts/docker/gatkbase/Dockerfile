@@ -49,8 +49,8 @@ RUN java -version
 
 # Install miniconda
 ENV DOWNLOAD_DIR /downloads
-ENV CONDA_URL https://repo.continuum.io/miniconda/Miniconda3-py37_4.8.2-Linux-x86_64.sh
-ENV CONDA_MD5 = "87e77f097f6ebb5127c77662dfc3165e"
+ENV CONDA_URL https://repo.continuum.io/miniconda/Miniconda3-4.7.12.1-Linux-x86_64.sh
+ENV CONDA_MD5 = "81c773ff87af5cfac79ab862942ab6b3"
 ENV CONDA_PATH /opt/miniconda
 RUN mkdir $DOWNLOAD_DIR && \
     wget -nv -O $DOWNLOAD_DIR/miniconda.sh $CONDA_URL && \

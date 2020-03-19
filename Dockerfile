@@ -1,5 +1,5 @@
 # Using OpenJDK 8
-FROM broadinstitute/gatk-dev:gatkbase-2.4.0-sl-testing
+FROM broadinstitute/gatk-dev:gatkbase-2.5.0-sl-testing
 
 # Location of the unzipped gatk bundle files
 ARG ZIPPATH
