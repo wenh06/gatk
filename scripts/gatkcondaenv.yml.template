@@ -13,7 +13,7 @@ dependencies:
 
 # core python dependencies
 - conda-forge::python=3.6.10      # do not update
-- conda-forge::pip=20.0.2
+- pip=20.0.2                    # specifying channel may cause a warning to be emitted by conda
 - conda-forge::mkl=2019.5        # MKL typically provides dramatic performance increases for theano, tensorflow, and other key dependencies
 - conda-forge::mkl-service=2.3.0
 - conda-forge::numpy=1.17.5       # do not update, this will break scipy=0.19.1; verify that numpy is compiled against MKL (e.g., by checking *_mkl_info using numpy.show_config()) and that it is used in tensorflow, theano, and other key dependencies
@@ -40,7 +40,7 @@ dependencies:
 # other python dependencies; these should be removed after functionality is moved into Java code
 - biopython=1.76
 - pyvcf=0.6.8
-- bioconda::pysam=0.13.1
+- bioconda::pysam=0.13
 
 # pip installs should be avoided, as pip may not respect the dependencies found by the conda solver
 - pip:
