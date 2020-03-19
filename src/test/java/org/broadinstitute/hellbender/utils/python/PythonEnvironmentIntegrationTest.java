@@ -4,9 +4,6 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.util.Collections;
-import java.util.Map;
-
 // Tests to nominally validate that the GATK conda environment is activated, and that it's
 // dependencies are accessible.
 //
@@ -21,25 +18,25 @@ public class PythonEnvironmentIntegrationTest {
         return new Object[][] {
                 // names of base packages that we should be able to import from within the GATK conda environment
                 // this list isn't exhaustive
-                { "numpy", null },
-                { "scipy", null },
-                { "tensorflow", null },
-                { "theano", Collections.singletonMap("MKL_THREADING_LAYER", "GNU")},
-                { "keras", null },
-                { "pymc3", Collections.singletonMap("MKL_THREADING_LAYER", "GNU") },
-                { "argparse", null },
-                { "gcnvkernel", Collections.singletonMap("MKL_THREADING_LAYER", "GNU") }
+                { "numpy"},
+                { "scipy"},
+                { "tensorflow"},
+                { "theano" },
+                { "keras" },
+                { "pymc3" },
+                { "argparse" },
+                { "gcnvkernel" }
         };
     }
 
     @Test(groups = {"python"}, dataProvider="supportedPythonPackages")
-    public void testGATKPythonEnvironmentPackagePresent(final String packageName, final Map<String, String> environment) {
+    public void testGATKPythonEnvironmentPackagePresent(final String packageName) {
         // Do a basic sanity check of the GATK Python conda environment. This test should only be run on
         // the GATK docker image, or if the conda environment has been activated manually.
 
         // We use the default python executable name ("python"), which in the activated gatk conda env should be Python 3.6.1
         final PythonScriptExecutor pythonExecutor = new PythonScriptExecutor(true);
-        Assert.assertTrue(pythonExecutor.executeCommand(String.format("import %s", packageName) + NL, null, null, environment));
+        Assert.assertTrue(pythonExecutor.executeCommand(String.format("import %s", packageName) + NL,null,null));
     }
 
 }
