@@ -21,7 +21,7 @@ dependencies:
 - conda-forge::theano=1.0.4       # it is unlikely that new versions of theano will be released, but verify that this is using numpy compiled against MKL (e.g., by the presence of -lmkl_rt in theano.config.blas.ldflags)
 - conda-forge::pymc3=3.1          # do not update, this will break gcnvkernel
 - defaults::tensorflow=1.12.0  # update only if absolutely necessary, as this may cause conflicts with other core dependencies; verify that this is using numpy compiled against MKL (e.g., by checking tensorflow.pywrap_tensorflow.IsMklEnabled())
-- conda-forge::keras=2.3.1      # not sure if this is the correct version
+- defaults::keras=2.3.1      # note that conda-forge::keras=2.3.1 undesirably sets the environment variable KERAS_BACKEND = theano by default
 - defaults::intel-openmp=2019.4
 - conda-forge::scikit-learn=0.22.2
 - conda-forge::matplotlib=3.2.1
