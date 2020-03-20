@@ -34,7 +34,7 @@ dependencies:
 - conda-forge::matplotlib=3.2.1
 - conda-forge::pandas=1.0.3
 
-# core R dependencies; these should only be used for plotting and do not take precendence over core python dependencies!
+# core R dependencies; these should only be used for plotting and do not take precedence over core python dependencies!
 - r-base=3.6.2
 - r-data.table=1.12.8
 - r-dplyr=0.8.5
