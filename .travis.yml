@@ -1,24 +1,21 @@
-language: java
-dist: trusty
+language: generic
+dist: bionic
 group: travis_lts
 git:
   depth: 9999999
   lfs_skip_smudge: true
-jdk:
-- openjdk8
 env:
   matrix:
-  - SCALA_VERSION=2.11 TEST_TYPE=cloud UPLOAD=true TESTS_REQUIRE_GCLOUD=true
-  - SCALA_VERSION=2.11 TEST_TYPE=integration TEST_DOCKER=true TEST_VERBOSITY=minimal
-  - SCALA_VERSION=2.11 TEST_TYPE=unit TEST_DOCKER=true TEST_VERBOSITY=minimal
-  - SCALA_VERSION=2.11 TEST_TYPE=variantcalling TEST_DOCKER=true TEST_VERBOSITY=minimal
-  - SCALA_VERSION=2.11 TEST_TYPE=python TEST_DOCKER=true TEST_VERBOSITY=minimal
-  - SCALA_VERSION=2.11 TEST_TYPE=R TEST_DOCKER=true TEST_VERBOSITY=minimal
-  - SCALA_VERSION=2.11 RUN_CNV_GERMLINE_COHORT_WDL=true TESTS_REQUIRE_GCLOUD=true
-  - SCALA_VERSION=2.11 RUN_CNV_GERMLINE_CASE_WDL=true TESTS_REQUIRE_GCLOUD=true
-  - SCALA_VERSION=2.11 RUN_CNV_SOMATIC_WDL=true TESTS_REQUIRE_GCLOUD=true
-  - SCALA_VERSION=2.11 RUN_M2_WDL=true TESTS_REQUIRE_GCLOUD=true
-  - SCALA_VERSION=2.11 RUN_CNN_WDL=true TESTS_REQUIRE_GCLOUD=true
+  - JAVA_VERSION=openjdk-8-jdk SCALA_VERSION=2.11 TEST_TYPE=cloud UPLOAD=true TESTS_REQUIRE_GCLOUD=true
+  - JAVA_VERSION=openjdk-8-jdk SCALA_VERSION=2.11 TEST_TYPE=integration TEST_DOCKER=true TEST_VERBOSITY=minimal
+  - JAVA_VERSION=openjdk-8-jdk SCALA_VERSION=2.11 TEST_TYPE=unit TEST_DOCKER=true TEST_VERBOSITY=minimal
+  - JAVA_VERSION=openjdk-8-jdk SCALA_VERSION=2.11 TEST_TYPE=variantcalling TEST_DOCKER=true TEST_VERBOSITY=minimal
+  - JAVA_VERSION=openjdk-8-jdk SCALA_VERSION=2.11 TEST_TYPE=python TEST_DOCKER=true TEST_VERBOSITY=minimal
+  - JAVA_VERSION=openjdk-8-jdk SCALA_VERSION=2.11 RUN_CNV_GERMLINE_COHORT_WDL=true TESTS_REQUIRE_GCLOUD=true
+  - JAVA_VERSION=openjdk-8-jdk SCALA_VERSION=2.11 RUN_CNV_GERMLINE_CASE_WDL=true TESTS_REQUIRE_GCLOUD=true
+  - JAVA_VERSION=openjdk-8-jdk SCALA_VERSION=2.11 RUN_CNV_SOMATIC_WDL=true TESTS_REQUIRE_GCLOUD=true
+  - JAVA_VERSION=openjdk-8-jdk SCALA_VERSION=2.11 RUN_M2_WDL=true TESTS_REQUIRE_GCLOUD=true
+  - JAVA_VERSION=openjdk-8-jdk SCALA_VERSION=2.11 RUN_CNN_WDL=true TESTS_REQUIRE_GCLOUD=true
   global:
   #gradle needs this
   - TERM=dumb
@@ -46,13 +43,14 @@ env:
 matrix:
   fast_finish: true
   include:
-     - jdk: oraclejdk8
-       env: SCALA_VERSION=2.11 TEST_TYPE=integration TEST_VERBOSITY=minimal TEST_REQUIRE_GCLOUD=true
      - jdk: openjdk11
+       language: java
        env: SCALA_VERSION=2.12 TEST_TYPE=integration TEST_VERBOSITY=minimal
      - jdk: openjdk11
+       language: java
        env: SCALA_VERSION=2.12 TEST_TYPE=unit TEST_VERBOSITY=minimal
      - jdk: openjdk11
+       language: java
        env: SCALA_VERSION=2.12 TEST_TYPE=cloud TESTS_REQUIRE_GCLOUD=true TEST_VERBOSITY=minimal
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -74,6 +72,24 @@ before_install:
       travis_terminate 0;
     fi;
   fi;
+ # Install java 8
+- java -version
+- which java
+- if [[ $JAVA_VERSION = "openjdk-8-jdk" ]]; then
+    echo "installing java 8"
+    echo ""
+    sudo apt-get update;
+    sudo apt install openjdk-8-jdk java-common;
+    sudo update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java;
+    sudo update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac;
+    export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64/;
+    export PATH=$JAVA_HOME/bin:$PATH;
+  fi
+- java -version
+- which java
+- echo $PATH
+- ls -l /usr/bin/java
+- ls -l /etc/alternatives/java
 - REPORT_PATH=${TRAVIS_BRANCH}_${TRAVIS_JOB_NUMBER};
 - if [[ $TRAVIS_SECURE_ENV_VARS == true && $TRAVIS_EVENT_TYPE != cron ]]; then
     echo "Test report will be written to  https://storage.googleapis.com$HELLBENDER_TEST_LOGS$REPORT_PATH/tests/test/index.html";
