@@ -8,7 +8,8 @@
 #
 name: $condaEnvName
 channels:
-# if channels other than conda-forge are added and the channel order is changed (note that conda channel_priority is currently set to flexible), verify that key dependencies are installed from the correct channel and compiled against MKL
+# if channels other than conda-forge are added and the channel order is changed (note that conda channel_priority is currently set to flexible),
+# verify that key dependencies are installed from the correct channel and compiled against MKL
 - conda-forge
 - defaults
 dependencies:
