@@ -49,7 +49,7 @@ public class InsertSizeMetricsCollectorSparkUnitTest extends CommandLineProgramT
         };
     }
 
-    @Test(dataProvider="metricsfiles", groups={"python", "spark"})
+    @Test(dataProvider="metricsfiles", groups={"R", "spark"})
     public void test(
             final String fileName,
             final String referenceName,
