@@ -6,11 +6,30 @@ import org.broadinstitute.hellbender.exceptions.UserException;
 import org.broadinstitute.hellbender.testutils.SparkTestUtils;
 import org.broadinstitute.hellbender.GATKBaseTest;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class ReferenceMultiSparkSourceUnitTest extends GATKBaseTest {
+    private String twoBitRefURL = publicTestDir + "large/human_g1k_v37.20.21.2bit";
 
-    private static String twoBitRefURL = publicTestDir + "large/human_g1k_v37.20.21.2bit";
+    @DataProvider(name="referenceTestCases")
+    public Object[][] getReferenceTestCases() {
+        return new Object[][] {
+                { twoBitRefURL, false },
+                { "file:///" + twoBitRefURL, false },
+                { hg38Reference, true }, // gzipped
+                { "file:///" + hg38Reference, true }, // gzipped
+                { GCS_b37_CHR20_21_REFERENCE_2BIT, false },
+                { GCS_b37_CHR20_21_REFERENCE, true },
+                // dummy query params at the end to make sure URI.getPath does the right thing
+                { GCS_b37_CHR20_21_REFERENCE + "?query=param", true}
+        };
+    }
+
+    @Test(dataProvider = "referenceTestCases")
+    public void testIsFasta(final String referenceSpec, final boolean expectedIsFasta) {
+        Assert.assertEquals(ReferenceMultiSparkSource.isFasta(new GATKPathSpecifier(referenceSpec)), expectedIsFasta);
+    }
 
     @Test
     public void testSerializeRoundTrip2Bit() {

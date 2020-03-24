@@ -38,9 +38,9 @@ public class ReferenceTwoBitSparkSource implements ReferenceSparkSource, Seriali
     private final Map<String, TwoBitRecord> twoBitSeqEntries;
 
     public ReferenceTwoBitSparkSource( GATKPathSpecifier referencePathSpecifier) throws IOException {
-        // Ideally we would just cache the GATKPathSpecifier directly, which would simplify this code, but
-        // ReferenceFileSparkSource objects are used as Spark broadcast variables, and caching GATKPathSpecifier
-        // triggers a known issue with the Java 11 build. See https://issues.apache.org/jira/browse/SPARK-26963.
+        // It would simplify this class if we could cache the GATKPathSpecifier, but ReferenceFileSparkSource
+        // objects are used as Spark broadcast variables, and caching GATKPathSpecifier here triggers a known
+        // issue during broadcast with the Java 11 GATK build. See https://issues.apache.org/jira/browse/SPARK-26963.
         this.referenceURL = referencePathSpecifier.getRawInputString();
         Utils.validateArg(isTwoBit(referencePathSpecifier), "ReferenceTwoBitSource can only take .2bit files");
         byte[] bytes = ByteStreams.toByteArray(BucketUtils.openFile(this.referenceURL));

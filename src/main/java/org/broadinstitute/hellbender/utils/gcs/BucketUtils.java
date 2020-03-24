@@ -74,7 +74,7 @@ public final class BucketUtils {
      * Returns true if the given path is a HDFS (Hadoop filesystem) URL.
      */
     public static boolean isHadoopUrl(GATKPathSpecifier pathSpecifier) {
-        return pathSpecifier.getURI().getScheme().equals(HDFS_SCHEME);
+        return pathSpecifier == null ? false : pathSpecifier.getURI().getScheme().equals(HDFS_SCHEME);
     }
 
     /**
@@ -124,7 +124,7 @@ public final class BucketUtils {
                 FileSystem fs = file.getFileSystem(new Configuration());
                 inputStream = fs.open(file);
             } else {
-                 inputStream = new GATKPathSpecifier(path).getInputStream();
+                inputStream = new FileInputStream(path);
             }
 
             if(IOUtil.hasBlockCompressedExtension(path)){

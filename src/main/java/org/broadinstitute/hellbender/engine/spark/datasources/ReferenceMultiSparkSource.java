@@ -31,7 +31,7 @@ public class ReferenceMultiSparkSource implements ReferenceSparkSource, Serializ
     protected ReferenceMultiSparkSource() {};
 
     /**
-     * @param referencePathSpecifier the name ?? of the reference (if using the Google Genomics API), or a path to the reference file
+     * @param referencePathSpecifier the name of the reference (if using the Google Genomics API), or a path to the reference file
      * @param referenceWindowFunction the custom reference window function used to map reads to desired reference bases
      */
     public ReferenceMultiSparkSource( final GATKPathSpecifier referencePathSpecifier,
@@ -56,7 +56,7 @@ public class ReferenceMultiSparkSource implements ReferenceSparkSource, Serializ
         this.referenceWindowFunction = referenceWindowFunction;
     }
 
-    private static boolean isFasta(final GATKPathSpecifier referencePathSpecifier) {
+    static boolean isFasta(final GATKPathSpecifier referencePathSpecifier) {
         final String referencePathString = referencePathSpecifier.getURI().getPath();
         for (final String ext : FileExtensions.FASTA) {
             if (referencePathString.endsWith(ext)) {

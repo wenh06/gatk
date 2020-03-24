@@ -57,4 +57,25 @@ public class ReferenceTwoBitSparkSourceUnitTest extends GATKBaseTest {
         Assert.assertEquals(bases.getBases().length, expectedNumBases, "Wrong number of bases returned from query");
         Assert.assertEquals(bases.getInterval().size(), expectedNumBases, "Wrong interval in ReferenceBases object returned from query");
     }
+
+    @DataProvider(name="referenceTestCases")
+    public Object[][] getReferenceTestCases() {
+        return new Object[][] {
+                { twoBitRefURL, true },
+                { "file:///" + twoBitRefURL, true },
+                { hg38Reference, false }, // gzipped
+                { "file:///" + hg38Reference, false }, // gzipped
+                { GCS_b37_CHR20_21_REFERENCE_2BIT, true },
+                { GCS_b37_CHR20_21_REFERENCE, false },
+                // dummy query params at the end to make sure URI.getPath does the right thing
+                { GCS_b37_CHR20_21_REFERENCE_2BIT + "?query=param", true },
+                { GCS_b37_CHR20_21_REFERENCE + "?query=param", false},
+        };
+    }
+
+    @Test(dataProvider = "referenceTestCases")
+    public void testIsTwoBit(final String referenceSpec, final boolean expectedIsTwoBit) {
+        Assert.assertEquals(ReferenceTwoBitSparkSource.isTwoBit(new GATKPathSpecifier(referenceSpec)), expectedIsTwoBit);
+    }
+
 }

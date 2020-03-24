@@ -7,7 +7,6 @@ import htsjdk.samtools.reference.ReferenceSequenceFileFactory;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
 import org.broadinstitute.hellbender.engine.GATKPathSpecifier;
 import org.broadinstitute.hellbender.exceptions.UserException;
 import org.broadinstitute.hellbender.utils.SimpleInterval;
@@ -35,9 +34,9 @@ public class ReferenceFileSparkSource implements ReferenceSparkSource, Serializa
      * @param referenceSpecifier the path to the reference file
      */
     public ReferenceFileSparkSource( final GATKPathSpecifier referenceSpecifier) {
-        // Ideally we would just cache the GATKPathSpecifier directly, which would simplify this code, but
-        // ReferenceFileSparkSource objects are used as Spark broadcast variables, and caching GATKPathSpecifier
-        // triggers a known issue with the Java 11 build. See https://issues.apache.org/jira/browse/SPARK-26963.
+        // It would simplify this class if we could cache the GATKPathSpecifier, but ReferenceFileSparkSource
+        // objects are used as Spark broadcast variables, and caching GATKPathSpecifier here triggers a known
+        // issue during broadcast with the Java 11 GATK build. See https://issues.apache.org/jira/browse/SPARK-26963.
         referencePath = referenceSpecifier.toPath();
         referenceUri = referencePath.toUri();
         if (!Files.exists(referencePath)) {

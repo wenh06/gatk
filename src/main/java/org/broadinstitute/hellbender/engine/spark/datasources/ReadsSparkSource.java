@@ -176,7 +176,7 @@ public final class ReadsSparkSource implements Serializable {
             final GATKPathSpecifier cramReferencePathSpec = checkCramReference(ctx, filePath, referencePathSpecifier);
             return HtsjdkReadsRddStorage.makeDefault(ctx)
                     .validationStringency(validationStringency)
-                    .referenceSourcePath(cramReferencePathSpec == null ? null : cramReferencePathSpec.getURI().toString())
+                    .referenceSourcePath(cramReferencePathSpec == null ? null : cramReferencePathSpec.getRawInputString())
                     .read(filePath)
                     .getHeader();
         } catch (IOException | IllegalArgumentException e) {
@@ -186,7 +186,7 @@ public final class ReadsSparkSource implements Serializable {
 
     /**
      * Check that for CRAM the reference is set to a file that exists and is not 2bit.
-     * @return the <code>referencePath</code> or <code>null</code> if not CRAM
+     * @return a <code>GATKPathSpecifier</code> or <code>null</code> if not CRAM
      */
     static GATKPathSpecifier checkCramReference(final JavaSparkContext ctx, final String filePath, final GATKPathSpecifier referencePathSpecifier) {
         if (IOUtils.isCramFileName(filePath)) {

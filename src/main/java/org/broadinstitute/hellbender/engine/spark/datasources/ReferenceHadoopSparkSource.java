@@ -23,9 +23,9 @@ public class ReferenceHadoopSparkSource implements ReferenceSparkSource, Seriali
      * @param referencePathSpecifier the path to the reference file on HDFS
      */
     public ReferenceHadoopSparkSource( final GATKPathSpecifier referencePathSpecifier) {
-        // Ideally we would just cache the GATKPathSpecifier directly, which would simplify this code, but
-        // ReferenceFileSparkSource objects are used as Spark broadcast variables, and caching GATKPathSpecifier
-        // triggers a known issue with the Java 11 build. See https://issues.apache.org/jira/browse/SPARK-26963.
+        // It would simplify this class if we could cache the GATKPathSpecifier, but ReferenceFileSparkSource
+        // objects are used as Spark broadcast variables, and caching GATKPathSpecifier here triggers a known
+        // issue during broadcast with the Java 11 GATK build. See https://issues.apache.org/jira/browse/SPARK-26963.
         this.referencePath = referencePathSpecifier.getRawInputString();
     }
 
