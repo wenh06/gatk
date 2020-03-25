@@ -1,0 +1,1 @@
+/home/slee/working/gatk/scripts/cnv_wdl/somatic/cnv_somatic_oncotator_workflow.wdl
